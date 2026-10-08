@@ -1,0 +1,101 @@
+#user{
+	 padding-top: 65px;
+}
+.user-center{
+  width: 90%;
+  margin: 30px auto;
+}
+.title-box{
+  margin-top: 20px;
+  background:#5a3bba;
+  color:#fff;
+  font-size:20px;
+  padding:8px 24px;
+  border-radius:12px 12px 0 0;
+  width: fit-content;
+}
+.container-wrap{
+  display:flex;
+  gap:20px;
+  align-items:flex-start;
+}
+/* 左侧卡片 */
+.left-card{
+  width:200px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+.left-card .card-header{
+  background:#5a3bba;
+  color:#fff;
+  text-align:center;
+  padding:8px;
+  border-radius:0px 6px 0 0;
+  
+}
+.card-body{
+  padding:16px;
+}
+.card-body p{
+	color: #746d81;
+}
+.avatar-box{
+  text-align:center;
+  margin-bottom:12px;
+}
+/* 中间菜单 */
+.center-menu{
+  width:140px;
+  background:#735bbf;
+  border-radius:6px;
+  overflow:hidden;
+}
+.menu-item{
+  padding:14px 12px;
+  color:#fff;
+  text-align:center;
+  cursor:pointer;
+}
+.menu-item.active{
+  background:#fff;
+  color:#735bbf;
+}
+/* 右侧表单 */
+.right-form{
+  flex:1;
+  border:1px solid #ccc;
+  padding:20px;
+  border-radius:6px;
+}
+.avatar-uploader{
+  display:flex;
+  align-items:center;
+}
+.avatar{
+  width:80px;
+  height:80px;
+  object-fit:cover;
+}
+.upload-add{
+  width:80px;
+  height:80px;
+  border:1px solid #ccc;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:30px;
+  color:#999;
+  
+}
+.tip-text{
+  margin-top:8px;
+  color:#666;
+  font-size:14px;
+  margin-left: 10px;
+}
+.recharge-btn{
+  margin-left:10px;
+}
+#sure{
+	background-color: #5a3bba;
+}

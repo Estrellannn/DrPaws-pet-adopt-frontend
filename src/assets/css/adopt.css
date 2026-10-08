@@ -1,0 +1,89 @@
+#ai{
+		height: 600px;
+		width: 100%;
+	}
+	#ap{
+		color: #746d81;
+	}
+	#aside{
+		height: 250px;
+		background-color: #ffffff;
+		border-radius: 20px;
+		box-shadow: 1px 1px 4px #746d81 ;
+	}
+	#ah5{
+		margin-left: 25px;
+		margin-top: 10px;
+	}
+	#all{
+		margin-left: 25px;
+		width: 150px;
+	}
+	#mao{
+		margin-left: 25px;
+		width: 150px;
+	}
+	#dog{
+		margin-left: 25px;
+		width: 150px;
+	}
+	#m{
+		margin-left: 25px;
+		margin-top: 3px;
+	}
+	#acard{
+		height: 300px;
+		width: 260px;
+		box-shadow: 1px 1px 4px #746d81 ;
+	}
+	#acard img{
+		height: 145px;
+		border-radius: 20px;
+		width: 215px;
+	}
+	#acard h4{
+		margin-top: 5px;
+	}
+	#acard p{
+		color: #746d81;
+	}
+	#acard button{
+		background-color: #6549c2;
+		color: #ffffff;
+		width: 200px;
+		border: none;
+		border-radius: 20px;
+		margin-left: 10px;
+		height: 30px;
+	}
+	#ah{
+		height: 600px;
+		width: 100%;
+		position: relative;
+	}
+	#ah h1{
+		color: #ffffff;
+		position: absolute;
+		top: 170px;
+		right:300px;
+	}
+	#ah1{
+		position: absolute;
+		top: 270px;
+		color: #ffffff;
+		right: 90px;
+	}
+	#ah2{
+		position: absolute;
+		top: 300px;
+		color: #ffffff;
+		right: 90px;
+	}
+	#pet-detail p{
+		color: #746d81;
+	}
+	.el-pagination{
+	  display: flex;
+	  justify-content: center;
+	  margin: 30px 0;
+	}

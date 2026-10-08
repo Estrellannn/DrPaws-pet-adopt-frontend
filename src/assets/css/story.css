@@ -1,0 +1,71 @@
+#sh img{
+	height: 600px;
+	width: 100%;
+}
+#sh{
+	position: relative;
+	height: 600px;
+	width: 100%;
+}
+#sh h1{
+	color: #ffffff;
+	position: absolute;
+	top: 140px;
+	right: 190px;
+}
+#sh p{
+	color: #ffffff;
+	position: absolute;
+	top: 240px;
+	right: 190px;
+}
+#sh5{
+	margin-left: 25px;
+	margin-top: 10px;
+}
+#xin{
+	margin-left: 25px;
+	width: 150px;
+}
+#ri{
+	margin-left: 25px;
+	width: 150px;
+}
+#wei{
+	margin-left: 25px;
+	width: 150px;
+}
+#yi{
+	margin-left: 25px;
+	width: 150px;
+}
+#xun{
+	margin-left: 25px;
+	width: 150px;
+}
+#hi{
+	border-radius: 50%;
+	height: 60px;
+	width: 60px;
+	margin: 0;
+	padding: 0;
+}
+#p{
+	color: #746d81;
+	font-size: 17px;
+	padding-top: 15px;
+	margin-left: 10px;
+}
+#bi{
+	height: 200px;
+	width: 305px;
+	border-radius: 15px;
+}
+#ch4{
+	color: #321980;
+	font-weight: 600;
+	margin-top: 15px;
+}
+#bp{
+	color: #746d81;
+}

@@ -1,0 +1,35 @@
+ul{
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+	li{
+		margin-right: 73px;
+	}
+	#logo{
+		margin-top: 5px;
+		margin-left: 300px;
+		margin-right: 11px;
+	}
+	.nav-item a{
+		text-decoration: none;
+		color: #171717;
+	}
+	.nav-item a:hover{
+		color: #321980;
+	}
+	.router-link-active{
+		color: #321980 !important;
+	}
+	.navbar{
+		position: fixed;
+		z-index:999;
+	}
+	#brand{
+		margin-right: 300px;
+		/* 关键：添加过渡动画，平滑滑动 */
+		transition: transform 0.3s ease;
+	}
+	.nav-hidden{
+			transform: translateY(-100%);
+		}

@@ -1,0 +1,15 @@
+body{
+	background-color: #faf9ff;
+	width: 100%;
+}
+.service-wrap{
+  background-color: #f3f1fb; 
+  padding: 40px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.footer-wrap{
+	background-color: #2b1b5c;
+	width: 100%;
+	padding: 40px 0;
+}

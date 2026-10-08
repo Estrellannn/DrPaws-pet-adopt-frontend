@@ -1,0 +1,143 @@
+#container{
+		margin-left: 180px ;
+		margin-right: 180px ;
+	}
+	h1{
+		color: #321980;
+		font-size: 75px;
+		font-weight: 600;
+	}
+	#h{
+		color: #594a93;
+		width: 400px;
+		text-align: justify;
+		line-height: 30px;
+		margin-top: 20px;
+	}
+	#himg{
+		width: 550px;
+		padding: 0;
+		margin-top: 70px;
+	}
+	#htitle{
+		margin-top: 70px;
+	}
+	#hb{
+		margin-top: 70px;
+		background-color: #6549c2;
+		border: none;
+		font-weight: 700;
+		font-size: 20px;
+		height: 50px;
+		width: 140px;
+		border-radius: 30px;
+	}
+	#img-box{
+		margin-top: 20px;
+		margin-left: 30px;
+		margin-bottom: 40px;
+		display: flex;
+		gap: 110px;
+	}
+	#fuwu{
+		color: #321980;
+		width: 1000px;
+		height: 100px;
+	}
+	#hp{
+		width: 600px;
+		margin-top: 20px;
+		color: #746d81;
+	}
+	h2{
+		font-weight: 600;
+		color: #321980;
+		margin-top: 30px;
+	}
+	.el-card{
+		height: 230px;
+		width: 300px;
+		border-radius: 30px;
+	}
+	#card img{
+		margin-left: 15px;
+		margin-top: 10px;
+	}
+	#card h5{
+		margin-left: 10px;
+		margin-top: 20px;
+		font-weight: 600;
+		color: #321980;
+	}
+	#card p{
+		margin-left: 10px;
+		color: #594c88;
+		margin-bottom: 0;
+	}
+	#a{
+		background-color: #e3dbfb;
+	}
+	#content{
+		background-image: url("../zhua.png");
+		  background-repeat: no-repeat;
+		  background-position: center;
+		  height: 600px;
+		margin-top: 40px;
+		  /* 新增下面三行，flex居中 */
+		  display: flex;
+		  flex-direction: column; /* 子元素垂直排列（标题、段落、按钮上下摆放） */
+		  justify-content: center; /* 垂直居中 */
+		  align-items: center; /* 水平居中 */
+	}
+	#c1{
+		color: #746d81;
+		width: 600px;
+		margin-top: 20px;
+		line-height: 2;
+	}
+	#cat{
+		background-image: url("../cat.png");
+		background-repeat: no-repeat;
+		background-position: center;
+		height: 410px;
+		width: 1000px;
+		display: flex;
+		justify-content: center; /* 垂直居中 */
+		align-items: center; /* 水平居中 */
+		position: relative;
+		margin-bottom: 50px;
+	}
+	#c2{
+		position: absolute;
+		width: 400px;
+		top: 200px;
+		left: 30px;
+		color: #61529b;
+		line-height: 1.%;
+	}
+	#ch2{
+		position: absolute;
+		left: 30px;
+		top: 90px;
+	}
+	#hb2{
+		margin-top: 70px;
+		background-color: #6549c2;
+		border: none;
+		font-weight: 700;
+		font-size: 20px;
+		height: 50px;
+		width: 140px;
+		border-radius: 30px;
+		position: absolute;
+		left: 30px;
+		top: 240px;
+	}
+	#hb a{
+		color: #ffffff;
+		text-decoration: none;
+	}
+	#hb2 a{
+		color: #ffffff;
+		text-decoration: none;
+	}
