@@ -16,14 +16,9 @@ JavaScript
 4.详情弹窗预览。
 
 ##启动说明
-环境要求 : Node.js 版本建议 >=16
-
-安装依赖
-```bash
-npm install
-
-启动本地开发服务器
-npm run dev
+环境要求 : Node.js 版本建议 >=16  
+安装依赖 ：npm install  
+启动本地开发服务器 ：npm run dev
 
 <img width="1920" height="3681" alt="首页" src="https://github.com/user-attachments/assets/554a83e0-3ac0-4b67-ae4e-671e113162bf" />
 <img width="1920" height="2273" alt="领养" src="https://github.com/user-attachments/assets/469f6547-8554-4251-b6d4-408da96228e5" />
