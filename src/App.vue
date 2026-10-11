@@ -4,9 +4,9 @@ import FooterVue from './components/Footer.vue';
 </script>
 
 <template>
-  <NavVue></NavVue>
+  <NavVue v-if="!$route.meta.hideLayout"></NavVue>
   <router-view></router-view>
-  <FooterVue></FooterVue>
+  <FooterVue v-if="!$route.meta.hideLayout"></FooterVue>
 </template>
 
 <style>

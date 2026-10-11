@@ -1,0 +1,42 @@
+html,body{
+            height:100%;
+			width: 100%;
+            margin:0;
+			padding: 0;
+        }
+        .left-box{
+            background-color:#f3f1fb;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            color:white;
+        }
+        .right-box{
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+        }
+		#l1{
+			margin-top: 40px;
+		}
+		#l2{
+			color: #746d81;
+		}
+		#l2 a{
+			text-decoration: none;
+		}
+		#login{
+			background-color: #6549c2;
+		}
+		#lh{
+			position: relative;
+		}
+		#lhz{
+			position: absolute;
+			top: 25px;
+			left: -275px;
+		}

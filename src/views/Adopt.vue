@@ -23,11 +23,11 @@
 				</div>
 				<div class="col-10">
 					<div class="row mb-1 mt-1">
-						<div v-for="item in filterPet" :key="item.name" class="col-3 mb-3">
+						<div v-for="item in filterPet" :key="item.id" class="col-3 mb-3">
 							<el-card id="acard">
-								<img :src="item.img"/>
-								<h4>{{item.name}}</h4>
-								<p>{{item.gende}} &nbsp; {{item.type}}</p>
+								<img :src="`${baseUrl}${item.petImg}`"/>
+								<h4>{{item.petName}}</h4>
+								<p>{{item.petGender}} &nbsp; {{item.petBreed}}</p>
 								<button @click="openDialog(item)">查看详细</button>
 							</el-card>
 						</div>
@@ -35,17 +35,15 @@
 					<div class="row mb-1 mt-4">
 						
 					<el-pagination
-					  :current-page="1"
-					  :page-size="3"
-					  :total="8"
+					  :current-page="pageNum"
+					  :page-size="pageSize"
+					  :total="total"
+					  @change="handlePageChange"
 					  layout="prev, pager, next"
 					  class="mt-5"
 					/>
 						
 					</div>
-					
-					
-					
 				</div>
 			</div>
 		</div>
@@ -58,16 +56,16 @@
 	  width="500px"
 	>
 	  <div id="pet-detail" class="pet-detail">
-	    <img :src="currentPet.img" style="width:100%;border-radius:8px"/>
-	    <p>名字：{{currentPet.name}}</p>
-	    <p>品种：{{currentPet.type}}</p>
-	    <p>性别：{{currentPet.gende}}</p>
-	    <p>类型：{{currentPet.pet==='cat'?'猫咪':'狗狗'}}</p>
-	    <p>介绍：一只温顺可爱的毛孩子，期待找到新家。</p>
+	    <img :src="`${baseUrl}${currentPet.petImg}`" style="width:100%;border-radius:8px"/>
+	    <p>名字：{{currentPet.petName}}</p>
+	    <p>品种：{{currentPet.petBreed}}</p>
+	    <p>性别：{{currentPet.petGender}}</p>
+	    <p>类型：{{currentPet.petType}}</p>
+	    <p>介绍：{{currentPet.petDesc}}</p>
+		<p>健康情况：{{currentPet.health}}</p>
 	  </div>
 	  <template #footer>
 	    <span class="dialog-footer">
-	      <el-button @click="dialogVisible = false">关闭</el-button>
 	      <el-button type="primary">申请领养</el-button>
 	    </span>
 	  </template>
@@ -77,38 +75,55 @@
 
 <script setup>
 	import { ElPagination } from 'element-plus'
-	import { ref , computed} from "vue";
+	import { ref , computed} from "vue"
+	import service from '../api/request'
+	
+	const baseUrl = import.meta.env.VITE_API_BASE_URL
+	const pageNum = ref(1)
+	const pageSize = ref(8)
+	const total = ref(0)
+	const pet = ref([])
+	const filterPet = ref([])
+	const getPetList = async ()=>{
+		try{
+			const res=await service.get(`${baseUrl}/api/adopt/list`,{
+				params:{
+					pageNum:pageNum.value,
+					pageSize:pageSize.value
+				}
+			})
+			console.log("领养接口返回", res)
+			pet.value=res.records
+			total.value=res.total
+			filterPet.value=pet.value
+		}catch(err){
+			console.error("请求失败",err)
+		}
+	}
+	
+	const handlePageChange = (newPage)=>{
+		pageNum.value = newPage
+		getPetList()
+	}
+	
 	const checked1=ref(false)
 	const checked2 = ref(false)
-	const pet=ref([
-	{name:"花花",type:"狸花",gende:"母",pet:"cat",img:new URL('../assets/1.jpg', import.meta.url).href},
-	{name:"豆豆",type:"拉布拉多",gende:"母",pet:"dog",img:new URL('../assets/5.jpg', import.meta.url).href},
-	{name:"面包",type:"橘猫",gende:"公",pet:"cat",img:new URL('../assets/2.jpg', import.meta.url).href},
-	{name:"旺财",type:"金毛",gende:"母",pet:"dog",img:new URL('../assets/7.jpg', import.meta.url).href},
-	{name:"土豆",type:"三花",gende:"公",pet:"cat",img:new URL('../assets/3.jpg', import.meta.url).href},
-	{name:"多多",type:"狸花",gende:"公",pet:"cat",img:new URL('../assets/4.jpg', import.meta.url).href},
-	{name:"毛球",type:"拉布拉多",gende:"母",pet:"dog",img:new URL('../assets/6.jpg', import.meta.url).href},
-	{name:"可乐",type:"金毛",gende:"母",pet:"dog",img:new URL('../assets/8.jpg', import.meta.url).href}
-	])
-	
-	const filterPet = ref([])
-	filterPet.value = pet.value
 	
 	function showall(){
 		filterPet.value=pet.value
 	}
 	
 	function showcat(){
-		filterPet.value=pet.value.filter(item=>item.pet==="cat")
+		filterPet.value=pet.value.filter(item=>item.petType==="猫咪")
 	}
 	function showdog(){
-		filterPet.value=pet.value.filter(item=>item.pet==="dog")
+		filterPet.value=pet.value.filter(item=>item.petType==="狗狗")
 	}
 	function showm(){
-		filterPet.value=pet.value.filter(item=>item.gende==="公")
+		filterPet.value=pet.value.filter(item=>item.petGender==="公")
 	}
 	function showf(){
-		filterPet.value=pet.value.filter(item=>item.gende==="母")
+		filterPet.value=pet.value.filter(item=>item.petGender==="母")
 	}
 	
 	const dialogVisible = ref(false)
@@ -119,6 +134,7 @@
 	  dialogVisible.value = true
 	}
 	
+	getPetList()
 </script>
 
 <style>

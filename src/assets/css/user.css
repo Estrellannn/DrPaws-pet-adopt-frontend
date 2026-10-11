@@ -24,6 +24,7 @@
   width:200px;
   border:1px solid #ccc;
   border-radius:6px;
+  margin-bottom: 50px;
 }
 .left-card .card-header{
   background:#5a3bba;
@@ -56,9 +57,12 @@
   text-align:center;
   cursor:pointer;
 }
-.menu-item.active{
-  background:#fff;
-  color:#735bbf;
+.center-menu a{
+	text-decoration: none;
+}
+.center-menu a.router-link-active .menu-item{
+    background:#fff;
+    color:#735bbf;
 }
 /* 右侧表单 */
 .right-form{
