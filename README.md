@@ -1,24 +1,32 @@
-# DrPaws宠物领养网站
-基于 Vue3 + Vite + ElementPlus 开发的宠物领养平台前端项目
+# DrPaws宠物领养网站 - 前端
+基于springboot+vue开发的前后端分离宠物领养网站项目，后端项目在：https://github.com/Estrellannn/DrPaws-pet-adopt-backend
 
-##技术栈
-Vue3 + Vite
-Element Plus UI组件库
-Bootstrap
-Vue Router 路由管理
-CSS 页面样式开发
-JavaScript
+## 技术栈
+Vue3 + Vite、
+Element Plus UI组件库、
+Bootstrap、
+Vue Router 路由管理、
+CSS 页面样式开发、
+JavaScript、
 
-##功能说明
+## 功能说明
 1.页面导航路由跳转。
 2.宠物领养展示和类型筛选。
 3.帖子展示和类型帅选
 4.详情弹窗预览。
+5.用户的登录。
 
-##启动说明
-环境要求 : Node.js 版本建议 >=16  
+## 环境依赖
+- Node.js : 16+
+- 包管理器：Yarn
+- 框架：Vue3 + Vite
+
+## 启动说明 
 安装依赖 ：npm install  
 启动本地开发服务器 ：npm run dev
+输入网址:http://localhost:5173 进入网址
+用户名：aoba 密码：123
+用户名：阿斯代伦 密码：456
 
 <img width="1920" height="3681" alt="首页" src="https://github.com/user-attachments/assets/554a83e0-3ac0-4b67-ae4e-671e113162bf" />
 <img width="1920" height="2273" alt="领养" src="https://github.com/user-attachments/assets/469f6547-8554-4251-b6d4-408da96228e5" />
