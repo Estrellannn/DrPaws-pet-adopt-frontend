@@ -24,7 +24,7 @@ JavaScript、
 ## 启动说明 
 安装依赖 ：npm install  
 启动本地开发服务器 ：npm run dev
-输入网址:http://localhost:5173 进入网址
+输入网址:http://localhost:5173 进入网站
 用户名：aoba 密码：123
 用户名：阿斯代伦 密码：456
 
