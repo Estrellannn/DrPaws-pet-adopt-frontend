@@ -12,6 +12,7 @@ import ChangePwd from '../views/ChangePwd.vue'
 import AdoptApply from '../views/AdoptApply.vue'
 import MyPublish from '../views/MyPublish.vue'
 import Service from '../views/Service.vue'
+import PostDetail from '../views/PostDetail.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -28,7 +29,12 @@ const routes = [
 	  {path:'service',component:Service}
   ]},
   { path: '/login',component:Login, meta:{hideLayout:true}},
-  { path: '/register',component:Register, meta:{hideLayout:true}}
+  { path: '/register',component:Register, meta:{hideLayout:true}},
+  {
+	path: '/post/:id',
+	name: 'postd',
+	component: PostDetail
+  }
 ]
 
 const router = createRouter({

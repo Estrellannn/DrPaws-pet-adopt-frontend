@@ -77,6 +77,7 @@
 	import { ElPagination } from 'element-plus'
 	import { ref , computed} from "vue"
 	import service from '../api/request'
+import router from '../router'
 	
 	const baseUrl = import.meta.env.VITE_API_BASE_URL
 	const pageNum = ref(1)
@@ -135,6 +136,8 @@
 	}
 	
 	getPetList()
+	
+	
 </script>
 
 <style>

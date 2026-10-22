@@ -8,7 +8,7 @@
         <div class="card-header">个人信息</div>
         <div class="card-body">
           <div class="avatar-box">
-            <el-avatar :size="80" :src="baseUrl+userInfo.avatar"></el-avatar>
+            <el-avatar :size="80" :src="userInfo.avatar?.startsWith('http') ? userInfo.avatar : baseUrl + userInfo.avatar"></el-avatar>
           </div>
           <p>用户名：{{ userInfo.username }}</p>
           <p>昵称：{{ userInfo.nickname }}</p>
@@ -37,12 +37,14 @@
 			<div class="menu-item">服务预约</div>
 		</router-link>
 		<router-link to="/login">
-			<div class="menu-item">退出登录</div>
+			<div class="menu-item" @click="logout()">退出登录</div>
 		</router-link>
       </div>
 
       <!-- 右侧表单区域 -->
-		<router-view :user-info="userInfo"></router-view>
+		<router-view v-slot="{Component}" >
+			<component :is="Component" :user-info="userInfo" @updateInfo="updateInfo" />
+		</router-view>
       </div>
 	</div>
   </div>
@@ -70,6 +72,11 @@ const getUserInfo=async()=>{
 	}
 }
 
+const logout=()=>{
+	localStorage.removeItem('token')
+	router.push('/login')
+}
+
 onMounted(()=>{
 	const token=localStorage.getItem('token')
 	if(!token){
@@ -79,19 +86,21 @@ onMounted(()=>{
 	}
 })
 
+const updateInfo=async(newUser)=>{
+		try{
+			const res=await request.put('/user/update',newUser)
+			if(res.code===200){
+				userInfo.value={...newUser}
+				alert("修改成功！")
+			}else{
+				alert("修改失败！")
+			}
+		}catch(err){
+			console.error(err)
+			alert("请求异常，修改失败！")
+		}
+	}
 
-
-// import avatarImg from '../assets/aoba.jpg'
-
-// const userInfo = ref({
-//   account: 'aoba',
-//   name: '苍叶',
-//   gender: '男',
-//   phone: '13922220422',
-//   idcard: '412345678912345221',
-//   address: '碧岛旧住民区东区',
-//   avatarUrl: avatarImg
-// })
 </script>
 
 <style scoped>

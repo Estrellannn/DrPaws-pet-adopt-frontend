@@ -4,6 +4,7 @@
   border:1px solid #ccc;
   padding:20px;
   border-radius:6px;
+  margin-right: -35px;
 }
 .avatar-uploader{
   display:flex;

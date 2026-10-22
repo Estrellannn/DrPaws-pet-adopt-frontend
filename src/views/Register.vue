@@ -15,33 +15,37 @@
 			    </div>
 			    <p id="l2" class="mb-4">已有账号？<router-link to="/login">立即登录</router-link></p>
 				
-			    <!-- 错误提示 -->
-			    <p class="text-danger" th:text="${msg}" th:if="${msg}"></p>
+			    <!-- 错误提示（Vue变量控制） -->
+			    <p v-if="errorMsg" class="text-danger">{{ errorMsg }}</p>
 				
-			    <form action="/doLogin" method="post">
-			        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			    <form @submit.prevent="handleRegister">
 			        <div class="mb-3">
 			            <label class="form-label">用户名</label>
-			            <input type="text" name="username" class="form-control" placeholder="请输入用户名,后续不可更改" required>
+			            <input v-model="form.username" type="text" class="form-control" placeholder="请输入用户名,后续不可更改" required>
 			        </div>
 					<div class="mb-3">
 					    <label class="form-label">昵称</label>
-					    <input type="text" name="nickname" class="form-control" placeholder="请输入昵称" required>
+					    <input v-model="form.nickname" type="text" class="form-control" placeholder="请输入昵称" required>
 					</div>
 			        <div class="mb-3">
 			            <label class="form-label">密码</label>
-			            <input type="password" name="password" class="form-control" placeholder="请输入密码" required>
+			            <input v-model="form.password" type="password" class="form-control" placeholder="请输入密码" required>
 			        </div>
 					<div class="mb-3">
 					    <label class="form-label">手机号</label>
-					    <input type="phone" name="phone" class="form-control" placeholder="请输入手机号" required>
+					    <input v-model="form.phone" type="tel" class="form-control" placeholder="请输入手机号" required>
 					</div>
-			        <button id="login" type="submit" class="btn btn-dark w-100 mt-3">注册</button>
+					<!-- 确认密码 -->
+					<div class="mb-3">
+					    <label class="form-label">确认密码</label>
+					    <input v-model="form.confirmPwd" type="password" class="form-control" placeholder="再次输入密码" required>
+					</div>
+			        <button id="register" type="submit" class="btn btn-dark w-100 mt-3">注册</button>
 			    </form>
 			</div>
 	    </div>
 	
-	    <!-- 右侧登录表单区域 -->
+	    <!-- 右侧图片区域 -->
 	    <div class="col-7 left-box">
 	        <div>
 	            <img src="../assets/rocket.jpg" alt="rocket" style="width:800px;">
@@ -52,9 +56,55 @@
 	</div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import request from '../api/request.js'
+import axios from 'axios'
+
+const router = useRouter()
+// 表单数据
+const form = ref({
+  username: '',
+  nickname: '',
+  password: '',
+  phone: '',
+  confirmPwd: ''
+})
+// 错误提示
+const errorMsg = ref('')
+const handleRegister = async () => {
+  errorMsg.value = ''
+  if(form.value.password !== form.value.confirmPwd){
+    errorMsg.value = '两次输入的密码不一致！'
+    return
+  }
+  const phoneReg = /^1[3-9]\d{9}$/
+  if(!phoneReg.test(form.value.phone)){
+    errorMsg.value = '手机号格式不正确！'
+    return
+  }
+  try {
+    // 发送axios请求，调用后端注册接口
+    const res = await request.post('/user/register',{
+      username: form.value.username,
+      nickname: form.value.nickname,
+      password: form.value.password,
+      phone: form.value.phone
+    })
+    if(res.code === 200){
+      // 注册成功跳转到登录页
+      router.push('/login')
+    }else{
+      errorMsg.value = res.msg
+    }
+  } catch (err) {
+    errorMsg.value = '注册失败，请检查网络或后端服务'
+    console.error(err)
+  }
+}
 </script>
 
-<style>
+<style scoped>
 	@import url('../assets/css/login.css');
 </style>

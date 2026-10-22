@@ -2,7 +2,7 @@
 	<div class="right-form">
 		<el-form :model="userInfo" label-width="80px">
 			<el-form-item label="用户名">
-			  <el-input v-model="props.userInfo.account" disabled></el-input>
+			  <el-input v-model="props.userInfo.username" disabled></el-input>
 			</el-form-item>
 			<el-form-item label="旧密码">
 			  <el-input ></el-input>
