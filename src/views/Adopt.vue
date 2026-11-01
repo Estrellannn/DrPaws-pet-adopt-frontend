@@ -87,7 +87,7 @@ import router from '../router'
 	const filterPet = ref([])
 	const getPetList = async ()=>{
 		try{
-			const res=await service.get(`${baseUrl}/api/adopt/list`,{
+			const res=await service.get(`${baseUrl}/adopt/list`,{
 				params:{
 					pageNum:pageNum.value,
 					pageSize:pageSize.value
@@ -136,7 +136,6 @@ import router from '../router'
 	}
 	
 	getPetList()
-	
 	
 </script>
 

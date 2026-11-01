@@ -66,6 +66,28 @@
 	font-weight: 600;
 	margin-top: 15px;
 }
-#bp{
+.bp{
 	color: #746d81;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	line-height: 1.6;
+}
+#allpost{
+	margin-top: -30px;
+}
+#jia{
+	border-radius: 30px;
+	height: 40px;
+	width: 40px;
+	background-color: #321980;
+	border: none;
+	margin-top: 30px;
+	margin-left: 45px;
+}
+#jiap{
+	font-size: 35px;
+	text-align: center;
+	margin-top: -9px;
 }

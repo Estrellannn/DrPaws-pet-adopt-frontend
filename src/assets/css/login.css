@@ -31,6 +31,7 @@ html,body{
 		}
 		#login{
 			background-color: #6549c2;
+			border: none;
 		}
 		#lh{
 			position: relative;

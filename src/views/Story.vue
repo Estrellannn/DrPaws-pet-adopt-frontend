@@ -5,7 +5,14 @@
 		<p>分享毛孩子日常，交流养宠知识，认识更多爱宠人士</p>
 	</div>
 	<div class="container">
-		<h2 class="mb-4">全部帖子</h2>
+		<div class="row" id="allpost">
+			<div class="col-11">
+				<h2 class="mb-4">全部帖子</h2>
+			</div>
+			<div class="col-1">
+				<button id="jia" class="mb-4" @click="open(item)"><p id="jiap">+</p></button>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-2 mb-5">
 				<el-aside id="aside" width="200px">
@@ -13,70 +20,165 @@
 					<el-button id="xin" class="mb-1" @click="showall">全部话题</el-button>
 					<el-button id="ri" class="mb-1" @click="showday">宠物日常</el-button>
 					<el-button id="wei" class="mb-1" @click="showfeed">宠物喂养</el-button>
-					<el-button id="yi" class="mb-1" @click="showsick">宠物医疗</el-button>
-					<el-button id="xun" @click="showtain">宠物训练</el-button>
+					<el-button id="yi" class="mb-1" @click="showmedical">宠物医疗</el-button>
+					<el-button id="xun" @click="showtarin">宠物训练</el-button>
 				</el-aside>
 			</div>
 			<div class="col-10 mb-5">
 				<div class="row mb-3">
-					<div v-for="item in filterart" :key="item.user" @click="goDetail(item.id)" class="col-4 mb-3">
+					<div v-for="item in filterPost" :key="item.id" @click="goDetail(item.id)" class="col-4 mb-3">
 						<el-card style="width: 350px;height: 490px;" shadow="always">
 							<template #header>
 								<div class="row">
 									<div class="col-2">
-										<img id="hi" :src="item.himg"/>
+										<img id="hi" :src="`${baseUrl}${item.avatar}`"/>
 									</div>
 									<div class="col-10">
-										<p id="p">{{item.user}}</p>
+										<p id="p">{{item.username}}</p>
 									</div>
 								</div>
 							</template>
-							<img id="bi" :src="item.pimg"/>
+							<img id="bi" :src="item.imgList?.[0] ? `${baseUrl}${item.imgList[0]}` : '/brand.png'"/>
 							<h4 id="ch4">{{item.title}}</h4>
-							<p id="bp">{{item.p}}</p>
+							<p class="bp">{{item.content}}</p>
 						</el-card>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<!-- 弹窗组件 -->
+	<el-dialog
+	  v-model="postpublish"
+	  title="帖子发布"
+	  width="716px"
+	>
+	  <div id="post-detail" class="post-detail">
+	      <el-form :model="postForm" label-width="60px">
+	        <el-form-item label="标题">
+	          <el-input v-model="postForm.title" placeholder="请输入帖子标题"></el-input>
+	        </el-form-item>
+			<el-form-item label="类型">
+			    <el-select v-model="postForm.category" placeholder="请选择帖子类型">
+			      <el-option label="宠物日常" value="宠物日常"></el-option>
+			      <el-option label="宠物喂养" value="宠物喂养"></el-option>
+			      <el-option label="宠物医疗" value="宠物医疗"></el-option>
+			      <el-option label="宠物训练" value="宠物训练"></el-option>
+			    </el-select>
+			  </el-form-item>
+	        <el-form-item label="图片">
+	          <el-upload
+	            action="#"
+	            :auto-upload="false"
+	            list-type="picture-card"
+	            :on-change="handleImageChange"
+				@preview="handlePictureCardPreview"
+				:limit="8"
+				multiple
+	          >
+	            <el-icon><Plus /></el-icon>
+	          </el-upload>
+			  <div style="color:#888;font-size:12px;margin-top:4px;margin-left: 10px;">最多上传8张图片</div>
+	        </el-form-item>
+	        <el-form-item label="内容">
+	          <el-input
+	            v-model="postForm.content"
+	            type="textarea"
+	            :rows="4"
+	            placeholder="请输入帖子内容"
+	          ></el-input>
+	        </el-form-item>
+	      </el-form>
+	    </div>
+	  <template #footer>
+	      <span class="dialog-footer">
+	        <el-button type="primary" @click="submitPost">确认发布</el-button>
+	      </span>
+	    </template>
+	  </el-dialog>
+	
+	<el-image-viewer
+	  v-if="previewVisible"
+	  :url-list="[previewUrl]"
+	  @close="previewVisible = false"
+	/>
+	
 </template>
 
 <script setup>
 	import { ref,computed} from 'vue'
 	import { useRouter } from 'vue-router'
-	const router = useRouter()
+	import service from '../api/request'
+import { ElMessage } from 'element-plus'
+	const baseUrl = import.meta.env.VITE_API_BASE_URL
+	const total=ref(0)
+	const post=ref([])
+	const filterPost=ref([])
 	
-	const art=ref([
-		{id:1,user:"aoba",type:"day",title:"狗狗每天需要遛多久",p:"很多养狗新手都会疑惑，狗狗每天到底要遛多久？其实遛弯时长不是固定的，要结合狗狗年龄、体型和健康状态来看...",pimg:new URL('../assets/11.jpg', import.meta.url).href,himg:new URL('../assets/aoba.jpg',import.meta.url).href},
-		{id:2,user:"阿斯代伦",type:"feed",title:"猫咪换粮小技巧",p:"给猫咪换粮不能一次性直接换，需要7天循序渐进替换，保护猫咪肠胃...",pimg:new URL('../assets/13.jpg', import.meta.url).href,himg:new URL('../assets/阿斯代伦.png',import.meta.url).href},
-		{id:3,user:"强尼",type:"sick",title:"狗狗驱虫怎么做",p:"体内外驱虫时间不一样，幼犬和成年犬周期不同，一定要按时驱虫...",pimg:new URL('../assets/12.jpg', import.meta.url).href,himg:new URL('../assets/强尼.jpg',import.meta.url).href},
-		{id:4,user:"亨利",type:"day",title:"猫咪应激怎么办",p:"环境变化很容易让猫咪应激，搬家、来客都要做好安抚...",pimg:new URL('../assets/14.jpg', import.meta.url).href,himg:new URL('../assets/henry.jpg',import.meta.url).href},
-		{id:5,user:"James Bond",type:"day",title:"新手养猫必买清单",p:"刚接猫咪回家不用疯狂囤货，基础用品准备猫砂、猫砂盆、猫粮、食盆水盆，其余用品可以后续慢慢添置...",pimg:new URL('../assets/15.jpg', import.meta.url).href,himg:new URL('../assets/James Bond.png',import.meta.url).href},
-		{id:6,user:"悟空",type:"feed",title:"狗狗不能吃的食物",p:"巧克力、葡萄、洋葱、木糖醇对狗狗有剧毒，日常投喂零食一定要避开这些，防止宠物中毒...",pimg:new URL('../assets/16.jpg', import.meta.url).href,himg:new URL('../assets/悟空.jpg',import.meta.url).href},
-	])
-	
-	const filterart=ref([])
-	filterart.value=art.value
+	const getPostList=async()=>{
+		try{
+			const res=await service.get(`${baseUrl}/post/list`,{
+				
+			})
+			console.log("后端返回完整",res)
+			post.value=res
+			total.value=res.total
+			filterPost.value=post.value
+			console.log('post.value：', post.value)
+			console.log('filterPost.value：', filterPost.value)
+		}catch(err){
+			ElMessage.error("请求失败",err)
+		}
+	}
 	
 	function showall(){
-		filterart.value=art.value
+		filterPost.value=post.value
 	}
 	function showday(){
-		filterart.value=art.value.filter(item=>item.type==="day")
+		filterPost.value=post.value.filter(item=>item.categoryId===1)
 	}
 	function showfeed(){
-		filterart.value=art.value.filter(item=>item.type==="feed")
+		filterPost.value=post.value.filter(item=>item.categoryId===2)
 	}
-	function showsick(){
-		filterart.value=art.value.filter(item=>item.type==="sick")
+	function showmedical(){
+		filterPost.value=post.value.filter(item=>item.categoryId===3)
 	}
-	function showtain(){
-		filterart.value=art.value.filter(item=>item.type==="tain")
+	function showtarin(){
+		filterPost.value=post.value.filter(item=>item.categoryId===4)
 	}
+	
+	const router = useRouter()
+	const postpublish=ref(false)
+	const previewVisible=ref(false)
+	const previewUrl = ref('')
+	
 	const goDetail=(postId)=>{
 		router.push(`/post/${postId}`)
 	}
+	
+	function open(item){
+		postpublish.value = true
+	}
+	
+	const postForm = ref({
+	  title: '',
+	  category: '',
+	  content: ''
+	})
+	
+	function handleImageChange(file) {
+	  postForm.value.imageFile = file.raw
+	}
+	
+	const handlePictureCardPreview = (file) => {
+		console.log('点击了放大镜', file)
+	    previewUrl.value = file.url || (file.response && file.response.url) || ''
+		previewVisible.value = true
+	}
+	
+	getPostList()
+	
 </script>
 
 <style>

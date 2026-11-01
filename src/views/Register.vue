@@ -40,7 +40,7 @@
 					    <label class="form-label">确认密码</label>
 					    <input v-model="form.confirmPwd" type="password" class="form-control" placeholder="再次输入密码" required>
 					</div>
-			        <button id="register" type="submit" class="btn btn-dark w-100 mt-3">注册</button>
+			        <button id="login" type="submit" class="btn btn-dark w-100 mt-3">注册</button>
 			    </form>
 			</div>
 	    </div>
