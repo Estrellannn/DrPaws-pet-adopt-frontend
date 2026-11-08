@@ -2,12 +2,14 @@
 	<div id="sh" class="mb-5">
 		<img src="../assets/ju.png"/>
 		<h1>宠物社区</h1>
-		<p>分享毛孩子日常，交流养宠知识，认识更多爱宠人士</p>
+		<p id="phs1">汇聚每一位爱宠人士在这里分享毛孩子日常趣事，交流喂养、护理、训练经验，</p>
+		<p id="phs2">解答养宠疑问，记录陪伴的温暖瞬间，一起科学养宠，相互陪伴，共赴温柔的养宠时光</p>
 	</div>
 	<div class="container">
 		<div class="row" id="allpost">
 			<div class="col-11">
-				<h2 class="mb-4">全部帖子</h2>
+				<h2 >全部帖子</h2>
+				<p id="ap" class="mb-4">记录毛孩子的可爱瞬间，一起交流养宠心得</p>
 			</div>
 			<div class="col-1">
 				<button id="jia" class="mb-4" @click="open(item)"><p id="jiap">+</p></button>
@@ -29,21 +31,33 @@
 					<div v-for="item in filterPost" :key="item.id" @click="goDetail(item.id)" class="col-4 mb-3">
 						<el-card style="width: 350px;height: 490px;" shadow="always">
 							<template #header>
-								<div class="row">
+								<div id="phe" class="row">
 									<div class="col-2">
-										<img id="hi" :src="`${baseUrl}${item.avatar}`"/>
+										<img id="hi" :src="getImgUrl(item.avatar)"/>
 									</div>
 									<div class="col-10">
 										<p id="p">{{item.username}}</p>
+										<p id="ip">IP：{{item.address}}</p>
 									</div>
 								</div>
 							</template>
-							<img id="bi" :src="item.imgList?.[0] ? `${baseUrl}${item.imgList[0]}` : '/brand.png'"/>
+							<img id="bi" :src="getImgUrl(item.imgList?.[0])"/>
 							<h4 id="ch4">{{item.title}}</h4>
 							<p class="bp">{{item.content}}</p>
 						</el-card>
 					</div>
 				</div>
+				
+				<div class="pagination-wrap">
+				        <el-pagination
+				            layout="prev,pager,next"
+				            :current-page="current"
+				            :page-size="pageSize"
+				            :total="total"
+				            @current-change="onPageChange"
+				        />
+				    </div>
+				
 			</div>
 		</div>
 	</div>
@@ -60,11 +74,11 @@
 	          <el-input v-model="postForm.title" placeholder="请输入帖子标题"></el-input>
 	        </el-form-item>
 			<el-form-item label="类型">
-			    <el-select v-model="postForm.category" placeholder="请选择帖子类型">
-			      <el-option label="宠物日常" value="宠物日常"></el-option>
-			      <el-option label="宠物喂养" value="宠物喂养"></el-option>
-			      <el-option label="宠物医疗" value="宠物医疗"></el-option>
-			      <el-option label="宠物训练" value="宠物训练"></el-option>
+			    <el-select v-model="postForm.categoryId" placeholder="请选择帖子类型">
+			      <el-option label="宠物日常" :value="1"></el-option>
+			      <el-option label="宠物喂养" :value="2"></el-option>
+			      <el-option label="宠物医疗" :value="3"></el-option>
+			      <el-option label="宠物训练" :value="4"></el-option>
 			    </el-select>
 			  </el-form-item>
 	        <el-form-item label="图片">
@@ -110,20 +124,36 @@
 	import { ref,computed} from 'vue'
 	import { useRouter } from 'vue-router'
 	import service from '../api/request'
-import { ElMessage } from 'element-plus'
+	import { ElMessage } from 'element-plus'
 	const baseUrl = import.meta.env.VITE_API_BASE_URL
+	
+	const current=ref(1)
+	const pageSize=ref(12)
 	const total=ref(0)
 	const post=ref([])
 	const filterPost=ref([])
 	
+	const getImgUrl=(url)=>{
+		if(!url)return '/brand.png'
+		return url.startsWith('http') ? url : `${baseUrl}${url}`
+	}
+	const postForm=ref({
+		title: '',
+		categoryId: '',
+		content: '',
+		imageUrlList: []
+	})
+	
 	const getPostList=async()=>{
 		try{
-			const res=await service.get(`${baseUrl}/post/list`,{
-				
-			})
+			const params={current: current.value,size: pageSize.value}
+			if(activeCategory.value) params.categoryId=activeCategory.value
+			
+			const res=await service.get(`${baseUrl}/post/list`,{params})
+			const pageData=res.records ? res:res.data
 			console.log("后端返回完整",res)
-			post.value=res
-			total.value=res.total
+			post.value=pageData.records
+			total.value=pageData.total
 			filterPost.value=post.value
 			console.log('post.value：', post.value)
 			console.log('filterPost.value：', filterPost.value)
@@ -132,20 +162,87 @@ import { ElMessage } from 'element-plus'
 		}
 	}
 	
+	async function uploadImg(file){
+		const formData=new FormData()
+		formData.append('file',file)
+		const res=await service.post(`${baseUrl}/postimg/upload`,formData,{
+			headers: { 'Content-Type': 'multipart/form-data'}
+		})
+		console.log('上传返回：',res)
+		return res.data || res
+	}
+	
+	async function handleImageChange(file){
+		if(!file.raw) return
+		try {
+			const imgUrl=await uploadImg(file.raw)
+			postForm.value.imageUrlList.push(imgUrl)
+		}catch(err){
+			ElMessage.error('图片上传失败')
+			console.error(err)
+		}
+	}
+	
+	async function submitPost(){
+		if(!postForm.value.title){
+			ElMessage.warning('请输入帖子标题')
+			return
+		}
+		if(!postForm.value.categoryId){
+			ElMessage.warning('请选择帖子类型')
+			return
+		}
+		if(!postForm.value.content){
+			ElMessage.warning('请输入帖子内容')
+			return
+		}
+		
+		const submitData={
+			title: postForm.value.title,
+			categoryId: postForm.value.categoryId,
+			content: postForm.value.content,
+			imageUrlList: postForm.value.imageUrlList
+		}
+		try{
+			await service.post(`${baseUrl}/post/publish`,submitData)
+			ElMessage.success('发布成功')
+			
+			postpublish.value=false
+			postForm.value={title: '',category: '',content: '',imageUrlList: []}
+			
+			getPostList()
+		}catch(err){
+			ElMessage.error('发布失败')
+			console.error(err)
+		}
+	}
+	
+	const activeCategory=ref(null)
+	
+	function onPageChange(page){
+		current.value=page
+		getPostList()
+	}
+	
 	function showall(){
-		filterPost.value=post.value
+		//filterPost.value=post.value
+		activeCategory.value=null;current.value=1;getPostList()
 	}
 	function showday(){
-		filterPost.value=post.value.filter(item=>item.categoryId===1)
+		//filterPost.value=post.value.filter(item=>item.categoryId===1)
+		activeCategory.value=1;current.value=1;getPostList()
 	}
 	function showfeed(){
-		filterPost.value=post.value.filter(item=>item.categoryId===2)
+		//filterPost.value=post.value.filter(item=>item.categoryId===2)
+		activeCategory.value=2;current.value=1;getPostList()
 	}
 	function showmedical(){
-		filterPost.value=post.value.filter(item=>item.categoryId===3)
+		//filterPost.value=post.value.filter(item=>item.categoryId===3)
+		activeCategory.value=3;current.value=1;getPostList()
 	}
 	function showtarin(){
-		filterPost.value=post.value.filter(item=>item.categoryId===4)
+		//filterPost.value=post.value.filter(item=>item.categoryId===4)
+		activeCategory.value=4;current.value=1;getPostList()
 	}
 	
 	const router = useRouter()
@@ -161,16 +258,6 @@ import { ElMessage } from 'element-plus'
 		postpublish.value = true
 	}
 	
-	const postForm = ref({
-	  title: '',
-	  category: '',
-	  content: ''
-	})
-	
-	function handleImageChange(file) {
-	  postForm.value.imageFile = file.raw
-	}
-	
 	const handlePictureCardPreview = (file) => {
 		console.log('点击了放大镜', file)
 	    previewUrl.value = file.url || (file.response && file.response.url) || ''
@@ -182,5 +269,5 @@ import { ElMessage } from 'element-plus'
 </script>
 
 <style>
-	@import "../assets/css/story.css"
+	@import "../assets/css/story.css";
 </style>

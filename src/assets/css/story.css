@@ -53,8 +53,24 @@
 #p{
 	color: #746d81;
 	font-size: 17px;
-	padding-top: 15px;
+	padding-top: 3px;
 	margin-left: 10px;
+}
+#ip{
+	color: #746d81;
+	font-size: 15px;
+	margin-left: 10px;
+	margin-top: -13px;
+}
+#phs1{
+	margin-right: -90px;
+}
+#phs2{
+	margin-top: 30px;
+	margin-right: -110px;
+}
+#phe{
+	height: 55px;
 }
 #bi{
 	height: 200px;
@@ -79,15 +95,20 @@
 }
 #jia{
 	border-radius: 30px;
-	height: 40px;
-	width: 40px;
+	height: 55px;
+	width: 55px;
 	background-color: #321980;
 	border: none;
 	margin-top: 30px;
-	margin-left: 45px;
+	margin-left: 35px;
 }
 #jiap{
-	font-size: 35px;
+	font-size: 50px;
 	text-align: center;
-	margin-top: -9px;
+	margin-top: -14px;
+}
+.pagination-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }

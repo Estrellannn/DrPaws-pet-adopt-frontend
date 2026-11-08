@@ -1,9 +1,9 @@
 <template>
 	<div id="ah" class="mb-5">
-		<img id="ai" src="../assets/adopt.png"/>
+		<img id="ai" src="../assets/dog.jpg"/>
 		<h1>宠物领养</h1>
 		<p id="ah1">致力于流浪伴侣动物救助与领养推广，秉持领养代替购买理念，以家人般的温暖守护每一只毛孩子，提供领养咨询、</p>
-		<p id="ah2">宠物健康科普、领养回访服务，为流浪小动物寻觅稳定有爱的家，让双向陪伴长久温暖。</p>
+		<p id="ah2">宠物健康科普、领养回访服务，为流浪小动物寻觅稳定有爱的家，让双向陪伴长久温暖</p>
 	</div>
 	<div class="container">
 		<div>
